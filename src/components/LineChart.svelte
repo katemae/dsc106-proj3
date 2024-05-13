@@ -1,15 +1,5 @@
 <script>
     import * as d3 from "d3";
-    import bio_data from "./data/biofuel.json";
-    import coal_data from "./data/coal.json";
-    import gas_data from "./data/gas.json";
-    import hydro_data from "./data/hydro.json";
-    import nuclear_data from "./data/nuclear.json";
-    import oil_data from "./data/oil.json";
-    import solar_data from "./data/solar.json";
-    import wind_data from "./data/wind.json";
-
-
     export let data;
 
     export let width = 900;
@@ -20,68 +10,73 @@
     export let marginLeft = 40;
 
     // Parse dates to create the x scale.
-    // data.forEach(d => {
-    //     d.year = new Date(d.year, 0); // Assuming the year is the first day of January
-    // });
+    data.forEach(d => {
+        d.year = new Date(d.year, 0); // Assuming the year is the first day of January
+    });
 
     const xScale = d3.scaleTime()
-        .domain(d3.extent(data, d => d.year))
+        // .domain([new Date(2000, 0), new Date(2018, 0)])
+        .domain(
+        [
+            new Date(2000, 0),
+            new Date(2018, 0)
+        ]
+        )
         .range([marginLeft, width - marginRight]);
 
-    
     // Create the y scale.
     const yScale = d3.scaleLinear()
         .domain([0, d3.max(data, d => d3.max([
-            d.biofuel_elec_per_capita,
-            d.coal_elec_per_capita,
-            d.gas_elec_per_capita,
-            d.hydro_elec_per_capita,
-            d.low_carbon_elec_per_capita,
-            d.nuclear_elec_per_capita,
-            d.oil_elec_per_capita,
-            d.solar_elec_per_capita,
-            d.wind_elec_per_capita
+            d.biofuel,
+            d.coal,
+            d.gas,
+            d.hydro,
+            d.low_carbon,
+            d.nuclear,
+            d.oil,
+            d.solar,
+            d.wind
         ]) + 100 )])
         .range([height - marginBottom, marginTop]);
     
     // Create the line generator.
     const bio_line = d3.line()
         .x(d => xScale(d.year))
-        .y(d => yScale(d.biofuel_elec_per_capita));
+        .y(d => yScale(d.biofuel));
     
     const coal_line = d3.line()
         .x(d => xScale(d.year))
-        .y(d => yScale(d.coal_elec_per_capita));
+        .y(d => yScale(d.coal));
     
     const gas_line = d3.line()
         .x(d => xScale(d.year))
-        .y(d => yScale(d.gas_elec_per_capita));
+        .y(d => yScale(d.gas));
     
     const hydro_line = d3.line()
         .x(d => xScale(d.year))
-        .y(d => yScale(d.hydro_elec_per_capita));
+        .y(d => yScale(d.hydro));
     
     const low_carbon_line = d3.line()
         .x(d => xScale(d.year))
-        .y(d => yScale(d.low_carbon_elec_per_capita));
+        .y(d => yScale(d.low_carbon));
     
     const nuclear_line = d3.line()
         .x(d => xScale(d.year))
-        .y(d => yScale(d.nuclear_elec_per_capita));
+        .y(d => yScale(d.nuclear));
     
     const oil_line = d3.line()
         .x(d => xScale(d.year))
-        .y(d => yScale(d.oil_elec_per_capita));
+        .y(d => yScale(d.oil));
     
     const solar_line = d3.line()
         .x(d => xScale(d.year))
-        .y(d => yScale(d.solar_elec_per_capita));
+        .y(d => yScale(d.solar));
     
     const wind_line = d3.line()
         .x(d => xScale(d.year))
-        .y(d => yScale(d.wind_elec_per_capita));
-
-        console.log(bio_line(data));
+        .y(d => yScale(d.wind));
+        
+        // console.log(bio_line(data));
 </script>
     
 <svg
@@ -165,55 +160,49 @@
         fill="none"
         stroke="steelblue"
         stroke-width="1.5"
-        d={bio_line(bio_data)}
+        d={bio_line(data)}
     />
     <path
         fill="none"
         stroke="red"
         stroke-width="1.5"
-        d={coal_line(coal_data)}
+        d={coal_line(data)}
     />
     <path
         fill="none"
         stroke="orange"
         stroke-width="1.5"
-        d={gas_line(gas_data)}
+        d={gas_line(data)}
     />
     <path
         fill="none"
         stroke="green"
         stroke-width="1.5"
-        d={hydro_line(hydro_data)}
+        d={hydro_line(data)}
     />
-    <!-- <path
-        fill="none"
-        stroke="purple"
-        stroke-width="1.5"
-        d={low_carbon_line(data)}
-    /> -->
     <path
         fill="none"
         stroke="blue"
         stroke-width="1.5"
-        d={nuclear_line(nuclear_data)}
+        d={nuclear_line(data)}
     />
     <path
         fill="none"
         stroke="black"
         stroke-width="1.5"
-        d={oil_line(oil_data)}
+        d={oil_line(data)}
     />
     <path
         fill="none"
         stroke="cyan"
         stroke-width="1.5"
-        d={solar_line(solar_data)}
+        d={solar_line(data)}
     />
     <path
         fill="none"
         stroke="yellow"
         stroke-width="1.5"
-        d={wind_line(wind_data)}
+        d={wind_line(data)}
     />
 </svg>
     
