@@ -4,7 +4,7 @@
 </script>
 
 <main>
-	<h1>Energy Consumption</h1>
+	<h1>Energy Generation</h1>
 
 	<p>...</p>
 
@@ -28,6 +28,7 @@
 
 	.chart {
 		text-align: center;
+		font-family: "Open Sans";
 	}
 </style>
 

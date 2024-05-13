@@ -2,12 +2,12 @@
     import * as d3 from "d3";
     export let data;
 
-    export let width = 900;
+    export let width = 1000;
     export let height = 500;
-    export let marginTop = 20;
-    export let marginRight = 30;
-    export let marginBottom = 30;
-    export let marginLeft = 40;
+    export let marginTop = 40;
+    export let marginRight = 20;
+    export let marginBottom = 50;
+    export let marginLeft = 50;
 
     // Parse dates to create the x scale.
     data.forEach(d => {
@@ -151,7 +151,7 @@
 
         <!-- Y-Axis Label -->
         <text fill="currentColor" text-anchor="start" x={-marginLeft} y={15}>
-            Energy Source Consumption Per Capita
+            Energy Source Generation Per Capita
         </text>
     </g>
 
