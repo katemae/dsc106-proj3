@@ -1,13 +1,31 @@
-<script>
-  // Write your JS here, or import other files
+<script>  
+	import data from "./data/combined_data.json";
+	import LineChart from "./LineChart.svelte";
 </script>
 
 <main>
-  <h1>Svelte template</h1>
+	<h1>Energy Consumtion</h1>
 
-  <p>Write your HTML here</p>
+	<p>...</p>
+
+	<div class="chart">
+		<LineChart {data} />
+	</div>
 </main>
 
+
+
 <style>
-  /* Write your CSS here */
+	h1 {
+		text-align: center;
+	}
+
+	p {
+		text-align: center;
+	}
+
+	.chart {
+		text-align: center;
+	}
 </style>
+
