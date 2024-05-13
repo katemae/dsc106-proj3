@@ -56,10 +56,6 @@
         .x(d => xScale(d.year))
         .y(d => yScale(d.hydro));
     
-    const low_carbon_line = d3.line()
-        .x(d => xScale(d.year))
-        .y(d => yScale(d.low_carbon));
-    
     const nuclear_line = d3.line()
         .x(d => xScale(d.year))
         .y(d => yScale(d.nuclear));
@@ -75,10 +71,49 @@
     const wind_line = d3.line()
         .x(d => xScale(d.year))
         .y(d => yScale(d.wind));
-        
-        // console.log(bio_line(data));
-</script>
+
+    // Allows lines to be drawn in an "each" loop.
+    let lines = [
+        bio_line, coal_line, gas_line, hydro_line, nuclear_line, oil_line, solar_line, wind_line
+    ];
+
+    // const lineIndex = {bio_line: 0, coal_line: 1, gas_line: 2, hydro_line: 3, nuclear_line: 4, oil_line: 5, solar_line: 6, wind_line: 7};
+
+    function lineIndexer(line) {
+        switch (line) {
+            case bio_line:
+                return 0;
+            case coal_line:
+                return 1;
+            case gas_line:
+                return 2;
+            case hydro_line:
+                return 3;
+            case nuclear_line:
+                return 4;
+            case oil_line:
+                return 5;
+            case solar_line:
+                return 6;
+            case wind_line:
+                return 7;
+            default:
+                return null;
+        }
+    }
+
+    const lineColor = d3.scaleLinear()
+        .domain([0, 1, 2, 3, 4, 5, 6, 7])
+        .range(["steelblue", "red", "orange", "green", "blue", "black", "cyan", "yellow"]);
     
+    // Variables for handling hovered lines
+    let hovered = -1;
+    let recorded_mouse_position = {
+		x: 0, y: 0
+	};
+</script>
+
+<div class="visualization">
 <svg
     {width}
     {height}
@@ -156,53 +191,58 @@
     </g>
 
     <!-- Plot Line Paths -->
-    <path
+    {#each lines as line_gen}
+        <path
         fill="none"
-        stroke="steelblue"
+        stroke={lineColor(lineIndexer(line_gen))}
         stroke-width="1.5"
-        d={bio_line(data)}
+        d={line_gen(data)}
+        on:mouseover={(event) => { 
+            hovered = lineIndexer(line_gen);
+            recorded_mouse_position = {
+                    x: event.pageX,
+                    y: event.pageY
+                }
+        }}
+        on:mouseout={(event) => { hovered = -1; }}
     />
-    <path
-        fill="none"
-        stroke="red"
-        stroke-width="1.5"
-        d={coal_line(data)}
-    />
-    <path
-        fill="none"
-        stroke="orange"
-        stroke-width="1.5"
-        d={gas_line(data)}
-    />
-    <path
-        fill="none"
-        stroke="green"
-        stroke-width="1.5"
-        d={hydro_line(data)}
-    />
-    <path
-        fill="none"
-        stroke="blue"
-        stroke-width="1.5"
-        d={nuclear_line(data)}
-    />
-    <path
-        fill="none"
-        stroke="black"
-        stroke-width="1.5"
-        d={oil_line(data)}
-    />
-    <path
-        fill="none"
-        stroke="cyan"
-        stroke-width="1.5"
-        d={solar_line(data)}
-    />
-    <path
-        fill="none"
-        stroke="yellow"
-        stroke-width="1.5"
-        d={wind_line(data)}
-    />
+    {/each}
 </svg>
-    
+    <div
+            class={hovered === -1 ? "tooltip-hidden": "tooltip-visible"}
+            style="left: {recorded_mouse_position.x + 40}px; top: {recorded_mouse_position.y + 40}px"	
+        >
+            {#if hovered !== -1}
+                Hello!
+            {/if}
+    </div>
+</div>
+
+<style>
+	.visualization {
+		font: 25px sans-serif;
+		margin: auto;
+		margin-top: 1px;
+		text-align: middle;
+	}
+
+	/* dynamic classes for the tooltip */
+	.tooltip-hidden {
+		visibility: hidden;
+		font-family: "Nunito", sans-serif;
+		width: 200px;
+		position: absolute;
+	}
+
+	.tooltip-visible {
+		font: 25px sans-serif;
+		font-family: "Nunito", sans-serif;
+		visibility: visible;
+		background-color: #f0dba8;
+		border-radius: 10px;
+		width: 200px;
+		color: black;
+		position: absolute;
+		padding: 10px;
+	}
+</style>
