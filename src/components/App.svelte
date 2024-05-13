@@ -4,7 +4,7 @@
 </script>
 
 <main>
-	<h1>Energy Consumtion</h1>
+	<h1>Energy Consumption</h1>
 
 	<p>...</p>
 
@@ -16,8 +16,10 @@
 
 
 <style>
+	@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,500;1,500&display=swap');
 	h1 {
 		text-align: center;
+		font-family: "Open Sans";
 	}
 
 	p {

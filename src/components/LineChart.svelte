@@ -1,5 +1,15 @@
 <script>
     import * as d3 from "d3";
+    import bio_data from "./data/biofuel.json";
+    import coal_data from "./data/coal.json";
+    import gas_data from "./data/gas.json";
+    import hydro_data from "./data/hydro.json";
+    import nuclear_data from "./data/nuclear.json";
+    import oil_data from "./data/oil.json";
+    import solar_data from "./data/solar.json";
+    import wind_data from "./data/wind.json";
+
+
     export let data;
 
     export let width = 900;
@@ -10,9 +20,9 @@
     export let marginLeft = 40;
 
     // Parse dates to create the x scale.
-    data.forEach(d => {
-        d.year = new Date(d.year, 0); // Assuming the year is the first day of January
-    });
+    // data.forEach(d => {
+    //     d.year = new Date(d.year, 0); // Assuming the year is the first day of January
+    // });
 
     const xScale = d3.scaleTime()
         .domain(d3.extent(data, d => d.year))
@@ -70,6 +80,8 @@
     const wind_line = d3.line()
         .x(d => xScale(d.year))
         .y(d => yScale(d.wind_elec_per_capita));
+
+        console.log(bio_line(data));
 </script>
     
 <svg
@@ -153,55 +165,55 @@
         fill="none"
         stroke="steelblue"
         stroke-width="1.5"
-        d={bio_line(data)}
+        d={bio_line(bio_data)}
     />
     <path
         fill="none"
         stroke="red"
         stroke-width="1.5"
-        d={coal_line(data)}
+        d={coal_line(coal_data)}
     />
     <path
         fill="none"
         stroke="orange"
         stroke-width="1.5"
-        d={gas_line(data)}
+        d={gas_line(gas_data)}
     />
     <path
         fill="none"
         stroke="green"
         stroke-width="1.5"
-        d={hydro_line(data)}
+        d={hydro_line(hydro_data)}
     />
-    <path
+    <!-- <path
         fill="none"
         stroke="purple"
         stroke-width="1.5"
         d={low_carbon_line(data)}
-    />
+    /> -->
     <path
         fill="none"
         stroke="blue"
         stroke-width="1.5"
-        d={nuclear_line(data)}
+        d={nuclear_line(nuclear_data)}
     />
     <path
         fill="none"
         stroke="black"
         stroke-width="1.5"
-        d={oil_line(data)}
+        d={oil_line(oil_data)}
     />
     <path
         fill="none"
         stroke="cyan"
         stroke-width="1.5"
-        d={solar_line(data)}
+        d={solar_line(solar_data)}
     />
     <path
         fill="none"
         stroke="yellow"
         stroke-width="1.5"
-        d={wind_line(data)}
+        d={wind_line(wind_data)}
     />
 </svg>
     
