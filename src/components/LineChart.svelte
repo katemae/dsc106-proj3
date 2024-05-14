@@ -102,7 +102,7 @@
     text-anchor="middle"
     alignment-baseline="middle"
   >
-    Generated Energy in Kilowatt-Hours
+    Energy Per Capita (kWh)
   </text>
   
   <!-- X Axis Label -->

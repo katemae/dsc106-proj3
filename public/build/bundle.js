@@ -2840,7 +2840,7 @@ var app = (function () {
     			attr_dev(line, "y2", line_y__value_1 = /*yScale*/ ctx[8](/*data*/ ctx[2][/*i*/ ctx[30] + 1][/*yVar*/ ctx[20]]));
     			attr_dev(line, "stroke", line_stroke_value = /*colorScale*/ ctx[11](/*yVar*/ ctx[20]));
     			attr_dev(line, "stroke-width", "2");
-    			add_location(line, file$2, 122, 10, 3096);
+    			add_location(line, file$2, 122, 10, 3085);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, line, anchor);
@@ -3129,9 +3129,9 @@ var app = (function () {
     			attr_dev(line, "y2", line_y__value_1 = /*chartHeight*/ ctx[1] - /*paddings*/ ctx[6].bottom - 2);
     			attr_dev(line, "stroke", "black");
     			attr_dev(line, "stroke-width", "1");
-    			add_location(line, file$2, 179, 6, 4456);
+    			add_location(line, file$2, 179, 6, 4445);
     			attr_dev(g, "transform", g_transform_value = "translate(" + /*xScale*/ ctx[7](/*computeSelectedXValue*/ ctx[15](/*mousePosition*/ ctx[5].x)) + " 0)");
-    			add_location(g, file$2, 176, 4, 4358);
+    			add_location(g, file$2, 176, 4, 4347);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, g, anchor);
@@ -3206,7 +3206,7 @@ var app = (function () {
     			attr_dev(circle, "cy", circle_cy_value = /*yScale*/ ctx[8](/*data*/ ctx[2].find(/*func*/ ctx[17])[/*yVar*/ ctx[20]]));
     			attr_dev(circle, "r", "3");
     			attr_dev(circle, "fill", circle_fill_value = /*colorScale*/ ctx[11](/*yVar*/ ctx[20]));
-    			add_location(circle, file$2, 188, 8, 4667);
+    			add_location(circle, file$2, 188, 8, 4656);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, circle, anchor);
@@ -3369,7 +3369,7 @@ var app = (function () {
     		c: function create() {
     			svg = svg_element("svg");
     			text0 = svg_element("text");
-    			t0 = text("Generated Energy in Kilowatt-Hours\r\n  ");
+    			t0 = text("Energy Per Capita (kWh)\r\n  ");
     			text1 = svg_element("text");
     			t1 = text("Years\r\n  ");
     			g0 = svg_element("g");
@@ -3408,8 +3408,8 @@ var app = (function () {
     			attr_dev(text1, "fill", "black");
     			attr_dev(text1, "text-anchor", "middle");
     			attr_dev(text1, "alignment-baseline", "middle");
-    			add_location(text1, file$2, 108, 2, 2786);
-    			add_location(g0, file$2, 118, 2, 2986);
+    			add_location(text1, file$2, 108, 2, 2775);
+    			add_location(g0, file$2, 118, 2, 2975);
     			attr_dev(line0, "x1", /*paddings*/ ctx[6].left);
     			attr_dev(line0, "x2", line0_x__value_1 = /*chartWidth*/ ctx[0] - /*paddings*/ ctx[6].right);
     			attr_dev(line0, "y1", line0_y__value = /*chartHeight*/ ctx[1] - /*paddings*/ ctx[6].bottom);
@@ -3417,7 +3417,7 @@ var app = (function () {
     			attr_dev(line0, "stroke", "black");
     			attr_dev(line0, "stroke-opacity", "0.6");
     			attr_dev(line0, "stroke-width", "2");
-    			add_location(line0, file$2, 135, 4, 3416);
+    			add_location(line0, file$2, 135, 4, 3405);
     			attr_dev(line1, "x1", /*paddings*/ ctx[6].left);
     			attr_dev(line1, "x2", /*paddings*/ ctx[6].left);
     			attr_dev(line1, "y1", /*paddings*/ ctx[6].top);
@@ -3425,10 +3425,10 @@ var app = (function () {
     			attr_dev(line1, "stroke", "black");
     			attr_dev(line1, "stroke-opacity", "0.6");
     			attr_dev(line1, "stroke-width", "2");
-    			add_location(line1, file$2, 144, 4, 3659);
-    			add_location(g1, file$2, 134, 2, 3407);
-    			add_location(g2, file$2, 154, 2, 3877);
-    			add_location(g3, file$2, 164, 2, 4085);
+    			add_location(line1, file$2, 144, 4, 3648);
+    			add_location(g1, file$2, 134, 2, 3396);
+    			add_location(g2, file$2, 154, 2, 3866);
+    			add_location(g3, file$2, 164, 2, 4074);
     			attr_dev(svg, "width", /*chartWidth*/ ctx[0]);
     			attr_dev(svg, "height", /*chartHeight*/ ctx[1]);
     			attr_dev(svg, "id", /*idContainer*/ ctx[12]);
@@ -4669,7 +4669,7 @@ var app = (function () {
     			t5 = text("\r\n    Each value represents the generated energy from a particular source ");
     			em = element("em");
     			em.textContent = "per capita";
-    			t7 = text(", meaning the amount of energy generated from a source per person in the US.");
+    			t7 = text(", meaning the amount of energy generated from a source averaged per person in the US.");
     			t8 = space();
     			div2 = element("div");
     			div1 = element("div");
@@ -4694,18 +4694,18 @@ var app = (function () {
     			attr_dev(p, "class", "svelte-186odfk");
     			add_location(p, file, 38, 2, 977);
     			attr_dev(button0, "class", "svelte-186odfk");
-    			add_location(button0, file, 49, 6, 1377);
+    			add_location(button0, file, 49, 6, 1386);
     			attr_dev(button1, "class", "svelte-186odfk");
-    			add_location(button1, file, 50, 6, 1483);
+    			add_location(button1, file, 50, 6, 1492);
     			attr_dev(button2, "class", "svelte-186odfk");
-    			add_location(button2, file, 51, 6, 1596);
+    			add_location(button2, file, 51, 6, 1605);
     			attr_dev(div0, "class", "highlight svelte-186odfk");
     			attr_dev(div0, "style", /*highlightStyle*/ ctx[1]);
-    			add_location(div0, file, 52, 6, 1716);
+    			add_location(div0, file, 52, 6, 1725);
     			attr_dev(div1, "class", "button-container svelte-186odfk");
-    			add_location(div1, file, 48, 4, 1339);
+    			add_location(div1, file, 48, 4, 1348);
     			attr_dev(div2, "class", "energy-filter svelte-186odfk");
-    			add_location(div2, file, 47, 2, 1306);
+    			add_location(div2, file, 47, 2, 1315);
     			add_location(main, file, 35, 0, 914);
     		},
     		l: function claim(nodes) {
