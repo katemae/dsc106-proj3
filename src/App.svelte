@@ -26,7 +26,7 @@
     Hover over our graph to see the kilowatt-hours of energy generated per source.
     <br>
     <br>
-    Each value represented the generated energy <em>per capita</em>,<br>meaning the amount of energy generated from that source per person in the US.
+    Each value represented the generated energy <em>per capita</em>, meaning the amount of energy generated from that source per person in the US.
   </p>
 
   <!-- Buttons for toggling between different y-axis variable sets -->
@@ -54,6 +54,9 @@
 
   p {
     text-align: center;
+    max-width: 600px;
+    margin: 0 auto;  
+    margin-bottom: 2%;
   }
 
   .energy-filter {
