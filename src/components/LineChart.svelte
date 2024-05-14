@@ -1,331 +1,220 @@
 <script>
-    import * as d3 from "d3";
-    export let data;
+  import { scaleLinear, scaleOrdinal } from "d3-scale";
+  import Tick from "./Tick.svelte";
+  import Tooltip from "./Tooltip.svelte";
 
-    export let width = 1000;
-    export let height = 500;
-    export let marginTop = 40;
-    export let marginRight = 20;
-    export let marginBottom = 50;
-    export let marginLeft = 50;
+  const paddings = {
+    top: 50,
+    left: 80,
+    right: 50,
+    bottom: 50,
+  };
 
-    // Parse dates to create the x scale.
-    data.forEach(d => {
-        d.year = new Date(d.year, 0); // Assuming the year is the first day of January
-    });
+  export let chartWidth;
+  export let chartHeight;
+  const tickNumber = chartWidth > 480 ? 10 : 5;
 
-    const xScale = d3.scaleTime()
-        // .domain([new Date(2000, 0), new Date(2018, 0)])
-        .domain(
-        [
-            new Date(2000, 0),
-            new Date(2018, 0)
-        ]
-        )
-        .range([marginLeft, width - marginRight]);
+  export let data;
+  export let xVar;
+  export let yVars;
 
-    // Create the y scale.
-    const yScale = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d3.max([
-            d.biofuel,
-            d.coal,
-            d.gas,
-            d.hydro,
-            d.low_carbon,
-            d.nuclear,
-            d.oil,
-            d.solar,
-            d.wind
-        ]) + 100 )])
-        .range([height - marginBottom, marginTop]);
-    
-    // Create the line generator.
-    const bio_line = d3.line()
-        .x(d => xScale(d.year))
-        .y(d => yScale(d.biofuel));
-    
-    const coal_line = d3.line()
-        .x(d => xScale(d.year))
-        .y(d => yScale(d.coal));
-    
-    const gas_line = d3.line()
-        .x(d => xScale(d.year))
-        .y(d => yScale(d.gas));
-    
-    const hydro_line = d3.line()
-        .x(d => xScale(d.year))
-        .y(d => yScale(d.hydro));
-    
-    const nuclear_line = d3.line()
-        .x(d => xScale(d.year))
-        .y(d => yScale(d.nuclear));
-    
-    const oil_line = d3.line()
-        .x(d => xScale(d.year))
-        .y(d => yScale(d.oil));
-    
-    const solar_line = d3.line()
-        .x(d => xScale(d.year))
-        .y(d => yScale(d.solar));
-    
-    const wind_line = d3.line()
-        .x(d => xScale(d.year))
-        .y(d => yScale(d.wind));
+  const xScale = scaleLinear()
+    .domain([
+      2000,
+      2018
+    ])
+    .range([paddings.left, chartWidth - paddings.right]);
 
-    const markGenerator = d3.symbol()
-        .type(d3.symbolCircle)
-        .size(250);
+  const yScale = scaleLinear()
+    .domain([
+      Math.min(...data.map((d) => Math.min(...yVars.map((yVar) => d[yVar])))),
+      Math.max(...data.map((d) => Math.max(...yVars.map((yVar) => d[yVar])))),
+    ])
+    .range([chartHeight - paddings.bottom, paddings.top])
+    .nice(tickNumber);
 
-    const hover_line = d3.line()
-        .x(d => d.cx)
-        .y(d => d.cy);
+  const yGrid = yScale.ticks(tickNumber);
+  const xGrid = xScale.ticks(tickNumber);
 
-    // Allows lines to be drawn in an "each" loop.
-    let lines = [
-        bio_line, coal_line, gas_line, hydro_line, nuclear_line, oil_line, solar_line, wind_line
-    ];
+  export let colorFunction;
 
-    // const lineIndex = {bio_line: 0, coal_line: 1, gas_line: 2, hydro_line: 3, nuclear_line: 4, oil_line: 5, solar_line: 6, wind_line: 7};
+  const colorScale =
+    colorFunction === undefined
+      ? scaleOrdinal()
+          .domain(yVars)
+          .range([
+            "#e41a1c",
+            "#377eb8",
+            "#4daf4a",
+            "#984ea3",
+            "#ff7f00",
+            "#ffff33",
+            "#a65628",
+            "#f781bf",
+            "#999999",
+          ])
+      : colorFunction;
 
-    function lineIndexer(line) {
-        switch (line) {
-            case bio_line:
-                return 0;
-            case coal_line:
-                return 1;
-            case gas_line:
-                return 2;
-            case hydro_line:
-                return 3;
-            case nuclear_line:
-                return 4;
-            case oil_line:
-                return 5;
-            case solar_line:
-                return 6;
-            case wind_line:
-                return 7;
-            default:
-                return null;
-        }
-    }
+  const idContainer = "svg-container-" + Math.random() * 1000000;
+  let mousePosition = { x: null, y: null };
 
-    const lineColor = d3.scaleLinear()
-        .domain([0, 1, 2, 3, 4, 5, 6, 7])
-        .range(["saddlebrown", "red", "orange", "green", "#5AB2FF", "black", "darkmagenta", "gold"]);
-    
-    // Variables for handling hovered lines
-    let hovered = -1;
-    let mark_hovered = -1;
-    let recorded_mouse_position = {
-		x: 0, y: 0
-	};
+  function followMouse(event) {
+    const svg = document.getElementById(idContainer);
+    if (svg === null) return;
 
-    // Create data markers and arrays to hold data.
-    const data_markers = [];
-    const energy_data = [];
-    const year_data = [];
-    const line_dict = {0: "biofuel", 1: "coal", 2: "gas", 3: "hydro", 4: "nuclear", 5: "oil", 6: "solar", 7: "wind"}
-    
-    function fill_data_markers(line_index) {
-        const line_name = line_dict[line_index]
-        for (let i = 0; i < data.length; i++) {
-            data_markers[i] = `${xScale(data[i]["year"])},${yScale(data[i][line_name])}`
-            energy_data[i] = `${data[i][line_name]}`
-            year_data[i] = data[i]["year"]
-        }
-    }
+    const dim = svg.getBoundingClientRect();
+    const positionInSVG = {
+      x: event.clientX - dim.left,
+      y: event.clientY - dim.top,
+    };
 
-    // Create vertical line based on hover location.
-    const vertical_line_coords = [];
-    function fill_vertical_coords(mark_hovered) {
-        vertical_line_coords[0] = {"cx": xScale(year_data[mark_hovered]), "cy": yScale.range()[0]};
-        vertical_line_coords[1] = {"cx": xScale(year_data[mark_hovered]), "cy": yScale.range()[1]};
-        console.log(year_data);
-    }
+    mousePosition =
+      positionInSVG.x > paddings.left &&
+      positionInSVG.x < chartWidth - paddings.right &&
+      positionInSVG.y > paddings.top &&
+      positionInSVG.y < chartHeight - paddings.bottom
+        ? { x: positionInSVG.x, y: positionInSVG.y }
+        : { x: null, y: null };
+  }
+
+  function removePointer() {
+    mousePosition = { x: null, y: null };
+  }
+
+  function computeSelectedXValue(value) {
+    return data.filter((d) => xScale(d[xVar]) >= value)[0][xVar];
+  }
 </script>
 
-<div class="visualization">
 <svg
-    {width}
-    {height}
-    viewBox="0 0 {width} {height}"
-    style:max-width="100%"
-    style:height="auto"
+  width={chartWidth}
+  height={chartHeight}
+  id={idContainer}
+  on:mousemove={followMouse}
+  on:mouseleave={removePointer}
 >
-    <!-- X-Axis -->
-    <g transform="translate(0,{height - marginBottom})">
-        <line stroke="currentColor" x1={marginLeft - 6} x2={width} />
+  <!-- Y Axis Label -->
+  <text
+    x={paddings.left - 40}
+    y={(chartHeight - paddings.bottom + paddings.top) / 2}
+    fill="black"
+    transform="rotate(-90, {paddings.left - 50}, {(chartHeight - paddings.bottom + paddings.top) / 2})"
+    text-anchor="middle"
+    alignment-baseline="middle"
+  >
+    Generated Energy in Kilowatt-Hours
+  </text>
+  
+  <!-- X Axis Label -->
+  <text
+    x={(chartWidth - paddings.right + paddings.left) / 2}
+    y={chartHeight - 10}
+    fill="black"
+    text-anchor="middle"
+    alignment-baseline="middle"
+  >
+    Years
+  </text>
 
-        {#each xScale.ticks() as tick}
-            <!-- X-Axis Ticks -->
-            <line
-                stroke="currentColor"
-                x1={xScale(tick)}
-                x2={xScale(tick)}
-                y1={0}
-                y2={6}
-            />
-
-            <!-- X-Axis Tick Labels -->
-            <text fill="currentColor" text-anchor="middle" x={xScale(tick)} y={22}>
-                {tick.getFullYear()}
-            </text>
-        {/each}
-    </g>
-
-    <!-- Y-Axis and Grid Lines -->
-    <g transform="translate({marginLeft},0)">
-        {#each yScale.ticks() as tick}
-            {#if tick !== 0}
-                <!-- 
-                    Grid Lines. 
-                    Note: First line is skipped since the x-axis is already present at 0. 
-                -->
-                <line
-                    stroke="currentColor"
-                    stroke-opacity="0.1"
-                    x1={0}
-                    x2={width - marginLeft}
-                    y1={yScale(tick)}
-                    y2={yScale(tick)}
-                />
-
-                <!-- 
-                    Y-Axis Ticks. 
-                    Note: First tick is skipped since the x-axis already acts as a tick. 
-                -->
-                <line
-                    stroke="currentColor"
-                    x1={0}
-                    x2={-6}
-                    y1={yScale(tick)}
-                    y2={yScale(tick)}
-                />
-            {/if}
-
-            <!-- Y-Axis Tick Labels -->
-            <text
-                fill="currentColor"
-                text-anchor="end"
-                dominant-baseline="middle"
-                x={-9}
-                y={yScale(tick)}
-            >
-                {tick}
-            </text>
-        {/each}
-
-        <!-- Y-Axis Label -->
-        <text fill="currentColor" text-anchor="start" x={-marginLeft} y={15}>
-            Energy Source Generation Per Capita
-        </text>
-    </g>
-
-    <!-- Plot Line Paths -->
-    {#each lines as line_gen}
-        <path
-            fill="none"
-            stroke={lineColor(lineIndexer(line_gen))}
-            stroke-width="3"
-            d={line_gen(data)}
-            on:mouseover={(event) => { 
-                hovered = lineIndexer(line_gen);
-                recorded_mouse_position = {
-                        x: event.pageX,
-                        y: event.pageY
-                    }
-            }}
-        />
-        {#if hovered !== -1}
-            <!-- Thicken line hovered -->
-            <path
-            fill="none"
-            stroke={lineColor(hovered)}
-            stroke-width="8"
-            d={lines[hovered](data)}
-            />
-
-            <!-- Draw vertical hover line -->
-            {fill_vertical_coords(mark_hovered)}
-            <path
-                class="hover-line"
-                fill="none"
-                stroke="black"
-                stroke-width="1.5"
-                d={hover_line(vertical_line_coords)}
-            />
-
-            <!-- Draw Markers for line hovered -->
-            {fill_data_markers(hovered)}
-            {#each data_markers as mark, index}
-                <path
-                fill={lineColor(hovered)}
-                stroke="#333333"
-                stroke-width="2"
-                transform="translate({mark})"
-                d={markGenerator()}
-                on:mouseover={(event) => { 
-                    mark_hovered = index;
-                    recorded_mouse_position = {
-                            x: event.pageX,
-                            y: event.pageY
-                        }
-                }}
-                on:mouseout={(event) => { 
-                    hovered = -1;
-                }}
-                />
-            {/each}
+  <g>
+    {#each data as datum, i}
+      {#each yVars as yVar}
+        {#if i != data.length - 1}
+          <line
+            x1={xScale(data[i][xVar])}
+            x2={xScale(data[i + 1][xVar])}
+            y1={yScale(data[i][yVar])}
+            y2={yScale(data[i + 1][yVar])}
+            stroke={colorScale(yVar)}
+            stroke-width="2"
+          />
         {/if}
-
+      {/each}
     {/each}
+  </g>
+  <g>
+    <line
+      x1={paddings.left}
+      x2={chartWidth - paddings.right}
+      y1={chartHeight - paddings.bottom}
+      y2={chartHeight - paddings.bottom}
+      stroke="black"
+      stroke-width="2"
+    />
+    <line
+      x1={paddings.left}
+      x2={paddings.left}
+      y1={paddings.top}
+      y2={chartHeight - paddings.bottom}
+      stroke="black"
+      stroke-width="2"
+    />
+  </g>
+  <g>
+    {#each yGrid.slice(1) as gridLine}
+      <Tick
+        x={paddings.left}
+        y={yScale(gridLine)}
+        value={gridLine}
+        direction={"horizontal"}
+      />
+    {/each}
+  </g>
+  <g>
+    {#each xGrid as gridLine}
+      <Tick
+        x={xScale(gridLine)}
+        y={chartHeight - paddings.bottom}
+        value={gridLine}
+        direction={"vertical"}
+        format={false}
+      />
+    {/each}
+  </g>
+  {#if mousePosition.x !== null}
+    <g
+      transform="translate({xScale(computeSelectedXValue(mousePosition.x))} 0)"
+    >
+      <line
+        x1="0"
+        x2="0"
+        y1={paddings.top}
+        y2={chartHeight - paddings.bottom - 2}
+        stroke="black"
+        stroke-width="1"
+      />
+      {#each yVars as yVar}
+        <circle
+          cx={0}
+          cy={yScale(
+            data.find(
+              (d) => d[xVar] === computeSelectedXValue(mousePosition.x)
+            )[yVar]
+          )}
+          r="3"
+          fill={colorScale(yVar)}
+        />
+      {/each}
+    </g>
+  {/if}
+
+  {#if mousePosition.x !== null}
+    <Tooltip
+      labels={yVars}
+      values={data.find(
+        (d) => d[xVar] === computeSelectedXValue(mousePosition.x)
+      )}
+      {colorScale}
+      x={mousePosition.x + 180 > chartWidth
+        ? mousePosition.x - 195
+        : mousePosition.x + 15}
+      y={Math.max(0, mousePosition.y - (yVars.length + 2) * 25)}
+      backgroundColor={"black"}
+      opacity="0.5"
+      textColor={"white"}
+      title={"Year: " + computeSelectedXValue(mousePosition.x)}
+      width="180"
+      adaptTexts={false}
+    />
+  {/if}
 </svg>
-    <div
-            class="tooltip-visible"
-        >
-            {#if hovered == -1}
-                Welcome!
-                <br>
-                Hover over a line to see its value.
-            {/if}
-            {#if hovered !== -1}
-                Energy Source: {line_dict[hovered]}
-                <br>
-                Energy Generation: {energy_data[mark_hovered]} kWh.
-            {/if}
-    </div>
-</div>
-
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-	.visualization {
-		font: "Open Sans";
-		margin: auto;
-		margin-top: 1px;
-		text-align: middle;
-	}
-
-	/* dynamic classes for the tooltip */
-	/* .tooltip-hidden {
-		visibility: hidden;
-		font-family: "Roboto";
-		width: 200px;
-		position: absolute;
-	} */
-
-	.tooltip-visible {
-        margin-top: 10px;
-        margin-right: 50%;
-		font: 25px sans-serif;
-		font-family: "Roboto";
-		visibility: visible;
-		background-color: #FFFACD;
-		border-radius: 20px;
-        height: 55px;
-		width: 500px;
-		color: black;
-		position: static;
-		padding: 10px;
-	}
-</style>
