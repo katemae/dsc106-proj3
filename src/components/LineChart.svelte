@@ -112,31 +112,25 @@
     
     // Variables for handling hovered lines
     let hovered = -1;
+    let mark_hovered = -1;
     let recorded_mouse_position = {
 		x: 0, y: 0
 	};
 
-    // Create data markers.
+    // Create data markers and arrays to hold data.
     const data_markers = [];
+    const energy_data = [];
+    const year_data = [];
+    const line_dict = {0: "biofuel", 1: "coal", 2: "gas", 3: "hydro", 4: "nuclear", 5: "oil", 6: "solar", 7: "wind"}
     
     function fill_data_markers(line_index) {
-        const line_dict = {0: "biofuel", 1: "coal", 2: "gas", 3: "hydro", 4: "nuclear", 5: "oil", 6: "solar", 7: "wind"}
         const line_name = line_dict[line_index]
         for (let i = 0; i < data.length; i++) {
             data_markers[i] = `${xScale(data[i]["year"])},${yScale(data[i][line_name])}`
+            energy_data[i] = `${data[i][line_name]}`
+            year_data[i] = `${data[i]["year"]}`
         }
     }
-
-    fill_data_markers("biofuel");
-    console.log(data_markers)
-    // function create_data_markers() {
-    //     marker_container = d3.select("svg")
-    //         .append('circle')
-    //         .attr('cx', '50%')
-    //         .attr('cy', '50%')
-    //         .attr('r', 20)
-    //         .style('fill', 'green');
-    // }
 </script>
 
 <div class="visualization">
@@ -230,17 +224,8 @@
                         y: event.pageY
                     }
             }}
-            on:mouseout={(event) => { hovered = -1; }}
         />
         {#if hovered !== -1}
-            {fill_data_markers(hovered)}
-            {#each data_markers as mark}
-                <path
-                fill={lineColor(hovered)}
-                transform="translate({mark})"
-                d={markGenerator()}
-                />
-            {/each}
             <path
             fill="none"
             stroke={lineColor(hovered)}
@@ -253,22 +238,47 @@
                         y: event.pageY
                     }
             }}
-            />  
+            />
+
+            <!-- Draw Markers for line hovered -->
+            {fill_data_markers(hovered)}
+            {#each data_markers as mark, index}
+                <path
+                fill={lineColor(hovered)}
+                stroke="#333333"
+                stroke-width="2"
+                transform="translate({mark})"
+                d={markGenerator()}
+                on:mouseover={(event) => { 
+                    mark_hovered = index;
+                    recorded_mouse_position = {
+                            x: event.pageX,
+                            y: event.pageY
+                        }
+                }}
+                on:mouseout={(event) => { 
+                    hovered = -1;
+                }}
+                />
+            {/each}
         {/if}
 
     {/each}
 </svg>
     <div
             class={hovered === -1 ? "tooltip-hidden": "tooltip-visible"}
-            style="left: {recorded_mouse_position.x}px; top: {recorded_mouse_position.y}px"	
+            style="left: 50px; top: 500px"	
         >
             {#if hovered !== -1}
-                Hello! This is a test to see if {hovered} works.
+                Energy Source: {line_dict[hovered]}
+                <!-- Year: {year_data[mark_hovered]} -->
+                Energy Generation: {energy_data[mark_hovered]} kWh.
             {/if}
     </div>
 </div>
 
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 	.visualization {
 		font: "Open Sans";
 		margin: auto;
@@ -279,14 +289,14 @@
 	/* dynamic classes for the tooltip */
 	.tooltip-hidden {
 		visibility: hidden;
-		font-family: "Nunito", sans-serif;
+		font-family: "Roboto";
 		width: 200px;
 		position: absolute;
 	}
 
 	.tooltip-visible {
 		font: 25px sans-serif;
-		font-family: "Nunito", sans-serif;
+		font-family: "Roboto";
 		visibility: visible;
 		background-color: #f0dba8;
 		border-radius: 10px;
