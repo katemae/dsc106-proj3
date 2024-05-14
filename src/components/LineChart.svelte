@@ -72,6 +72,10 @@
         .x(d => xScale(d.year))
         .y(d => yScale(d.wind));
 
+    const markGenerator = d3.symbol()
+        .type(d3.symbolCircle)
+        .size(500);
+
     // Allows lines to be drawn in an "each" loop.
     let lines = [
         bio_line, coal_line, gas_line, hydro_line, nuclear_line, oil_line, solar_line, wind_line
@@ -111,6 +115,28 @@
     let recorded_mouse_position = {
 		x: 0, y: 0
 	};
+
+    // Create data markers.
+    const data_markers = [];
+    
+    function fill_data_markers(line_index) {
+        const line_dict = {0: "biofuel", 1: "coal", 2: "gas", 3: "hydro", 4: "nuclear", 5: "oil", 6: "solar", 7: "wind"}
+        const line_name = line_dict[line_index]
+        for (let i = 0; i < data.length; i++) {
+            data_markers[i] = `${xScale(data[i]["year"])},${yScale(data[i][line_name])}`
+        }
+    }
+
+    fill_data_markers("biofuel");
+    console.log(data_markers)
+    // function create_data_markers() {
+    //     marker_container = d3.select("svg")
+    //         .append('circle')
+    //         .attr('cx', '50%')
+    //         .attr('cy', '50%')
+    //         .attr('r', 20)
+    //         .style('fill', 'green');
+    // }
 </script>
 
 <div class="visualization">
@@ -193,34 +219,58 @@
     <!-- Plot Line Paths -->
     {#each lines as line_gen}
         <path
-        fill="none"
-        stroke={lineColor(lineIndexer(line_gen))}
-        stroke-width="1.5"
-        d={line_gen(data)}
-        on:mouseover={(event) => { 
-            hovered = lineIndexer(line_gen);
-            recorded_mouse_position = {
-                    x: event.pageX,
-                    y: event.pageY
-                }
-        }}
-        on:mouseout={(event) => { hovered = -1; }}
-    />
+            fill="none"
+            stroke={lineColor(lineIndexer(line_gen))}
+            stroke-width="5"
+            d={line_gen(data)}
+            on:mouseover={(event) => { 
+                hovered = lineIndexer(line_gen);
+                recorded_mouse_position = {
+                        x: event.pageX,
+                        y: event.pageY
+                    }
+            }}
+            on:mouseout={(event) => { hovered = -1; }}
+        />
+        {#if hovered !== -1}
+            {fill_data_markers(hovered)}
+            {#each data_markers as mark}
+                <path
+                fill={lineColor(hovered)}
+                transform="translate({mark})"
+                d={markGenerator()}
+                />
+            {/each}
+            <path
+            fill="none"
+            stroke={lineColor(hovered)}
+            stroke-width="10"
+            d={lines[hovered](data)}
+            on:mouseover={(event) => { 
+                hovered = lineIndexer(line_gen);
+                recorded_mouse_position = {
+                        x: event.pageX,
+                        y: event.pageY
+                    }
+            }}
+            />  
+        {/if}
+
     {/each}
 </svg>
     <div
             class={hovered === -1 ? "tooltip-hidden": "tooltip-visible"}
-            style="left: {recorded_mouse_position.x + 40}px; top: {recorded_mouse_position.y + 40}px"	
+            style="left: {recorded_mouse_position.x}px; top: {recorded_mouse_position.y}px"	
         >
             {#if hovered !== -1}
-                Hello!
+                Hello! This is a test to see if {hovered} works.
             {/if}
     </div>
 </div>
 
 <style>
 	.visualization {
-		font: 25px sans-serif;
+		font: "Open Sans";
 		margin: auto;
 		margin-top: 1px;
 		text-align: middle;
