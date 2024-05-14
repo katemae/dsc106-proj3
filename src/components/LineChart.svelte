@@ -74,7 +74,11 @@
 
     const markGenerator = d3.symbol()
         .type(d3.symbolCircle)
-        .size(500);
+        .size(250);
+
+    const hover_line = d3.line()
+        .x(d => d.cx)
+        .y(d => d.cy);
 
     // Allows lines to be drawn in an "each" loop.
     let lines = [
@@ -108,7 +112,7 @@
 
     const lineColor = d3.scaleLinear()
         .domain([0, 1, 2, 3, 4, 5, 6, 7])
-        .range(["steelblue", "red", "orange", "green", "blue", "black", "cyan", "yellow"]);
+        .range(["saddlebrown", "red", "orange", "green", "#5AB2FF", "black", "darkmagenta", "gold"]);
     
     // Variables for handling hovered lines
     let hovered = -1;
@@ -128,8 +132,16 @@
         for (let i = 0; i < data.length; i++) {
             data_markers[i] = `${xScale(data[i]["year"])},${yScale(data[i][line_name])}`
             energy_data[i] = `${data[i][line_name]}`
-            year_data[i] = `${data[i]["year"]}`
+            year_data[i] = data[i]["year"]
         }
+    }
+
+    // Create vertical line based on hover location.
+    const vertical_line_coords = [];
+    function fill_vertical_coords(mark_hovered) {
+        vertical_line_coords[0] = {"cx": xScale(year_data[mark_hovered]), "cy": yScale.range()[0]};
+        vertical_line_coords[1] = {"cx": xScale(year_data[mark_hovered]), "cy": yScale.range()[1]};
+        console.log(year_data);
     }
 </script>
 
@@ -215,7 +227,7 @@
         <path
             fill="none"
             stroke={lineColor(lineIndexer(line_gen))}
-            stroke-width="5"
+            stroke-width="3"
             d={line_gen(data)}
             on:mouseover={(event) => { 
                 hovered = lineIndexer(line_gen);
@@ -226,18 +238,22 @@
             }}
         />
         {#if hovered !== -1}
+            <!-- Thicken line hovered -->
             <path
             fill="none"
             stroke={lineColor(hovered)}
-            stroke-width="10"
+            stroke-width="8"
             d={lines[hovered](data)}
-            on:mouseover={(event) => { 
-                hovered = lineIndexer(line_gen);
-                recorded_mouse_position = {
-                        x: event.pageX,
-                        y: event.pageY
-                    }
-            }}
+            />
+
+            <!-- Draw vertical hover line -->
+            {fill_vertical_coords(mark_hovered)}
+            <path
+                class="hover-line"
+                fill="none"
+                stroke="black"
+                stroke-width="1.5"
+                d={hover_line(vertical_line_coords)}
             />
 
             <!-- Draw Markers for line hovered -->
@@ -266,12 +282,16 @@
     {/each}
 </svg>
     <div
-            class={hovered === -1 ? "tooltip-hidden": "tooltip-visible"}
-            style="left: 50px; top: 500px"	
+            class="tooltip-visible"
         >
+            {#if hovered == -1}
+                Welcome!
+                <br>
+                Hover over a line to see its value.
+            {/if}
             {#if hovered !== -1}
                 Energy Source: {line_dict[hovered]}
-                <!-- Year: {year_data[mark_hovered]} -->
+                <br>
                 Energy Generation: {energy_data[mark_hovered]} kWh.
             {/if}
     </div>
@@ -287,22 +307,25 @@
 	}
 
 	/* dynamic classes for the tooltip */
-	.tooltip-hidden {
+	/* .tooltip-hidden {
 		visibility: hidden;
 		font-family: "Roboto";
 		width: 200px;
 		position: absolute;
-	}
+	} */
 
 	.tooltip-visible {
+        margin-top: 10px;
+        margin-right: 50%;
 		font: 25px sans-serif;
 		font-family: "Roboto";
 		visibility: visible;
-		background-color: #f0dba8;
-		border-radius: 10px;
-		width: 200px;
+		background-color: #FFFACD;
+		border-radius: 20px;
+        height: 55px;
+		width: 500px;
 		color: black;
-		position: absolute;
+		position: static;
 		padding: 10px;
 	}
 </style>
