@@ -2997,7 +2997,7 @@ var app = (function () {
     	return block;
     }
 
-    // (154:4) {#each yGrid.slice(1) as gridLine}
+    // (156:4) {#each yGrid.slice(1) as gridLine}
     function create_each_block_2(ctx) {
     	let tick_1;
     	let current;
@@ -3039,14 +3039,14 @@ var app = (function () {
     		block,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(154:4) {#each yGrid.slice(1) as gridLine}",
+    		source: "(156:4) {#each yGrid.slice(1) as gridLine}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (164:4) {#each xGrid as gridLine}
+    // (166:4) {#each xGrid as gridLine}
     function create_each_block_1(ctx) {
     	let tick_1;
     	let current;
@@ -3093,14 +3093,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(164:4) {#each xGrid as gridLine}",
+    		source: "(166:4) {#each xGrid as gridLine}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (174:2) {#if mousePosition.x !== null}
+    // (176:2) {#if mousePosition.x !== null}
     function create_if_block_1$1(ctx) {
     	let g;
     	let line;
@@ -3129,9 +3129,9 @@ var app = (function () {
     			attr_dev(line, "y2", line_y__value_1 = /*chartHeight*/ ctx[1] - /*paddings*/ ctx[6].bottom - 2);
     			attr_dev(line, "stroke", "black");
     			attr_dev(line, "stroke-width", "1");
-    			add_location(line, file$2, 177, 6, 4400);
+    			add_location(line, file$2, 179, 6, 4456);
     			attr_dev(g, "transform", g_transform_value = "translate(" + /*xScale*/ ctx[7](/*computeSelectedXValue*/ ctx[15](/*mousePosition*/ ctx[5].x)) + " 0)");
-    			add_location(g, file$2, 174, 4, 4302);
+    			add_location(g, file$2, 176, 4, 4358);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, g, anchor);
@@ -3186,14 +3186,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1$1.name,
     		type: "if",
-    		source: "(174:2) {#if mousePosition.x !== null}",
+    		source: "(176:2) {#if mousePosition.x !== null}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (186:6) {#each yVars as yVar}
+    // (188:6) {#each yVars as yVar}
     function create_each_block(ctx) {
     	let circle;
     	let circle_cy_value;
@@ -3206,7 +3206,7 @@ var app = (function () {
     			attr_dev(circle, "cy", circle_cy_value = /*yScale*/ ctx[8](/*data*/ ctx[2].find(/*func*/ ctx[17])[/*yVar*/ ctx[20]]));
     			attr_dev(circle, "r", "3");
     			attr_dev(circle, "fill", circle_fill_value = /*colorScale*/ ctx[11](/*yVar*/ ctx[20]));
-    			add_location(circle, file$2, 186, 8, 4611);
+    			add_location(circle, file$2, 188, 8, 4667);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, circle, anchor);
@@ -3229,14 +3229,14 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(186:6) {#each yVars as yVar}",
+    		source: "(188:6) {#each yVars as yVar}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (201:2) {#if mousePosition.x !== null}
+    // (203:2) {#if mousePosition.x !== null}
     function create_if_block$1(ctx) {
     	let tooltip;
     	let current;
@@ -3299,7 +3299,7 @@ var app = (function () {
     		block,
     		id: create_if_block$1.name,
     		type: "if",
-    		source: "(201:2) {#if mousePosition.x !== null}",
+    		source: "(203:2) {#if mousePosition.x !== null}",
     		ctx
     	});
 
@@ -3415,6 +3415,7 @@ var app = (function () {
     			attr_dev(line0, "y1", line0_y__value = /*chartHeight*/ ctx[1] - /*paddings*/ ctx[6].bottom);
     			attr_dev(line0, "y2", line0_y__value_1 = /*chartHeight*/ ctx[1] - /*paddings*/ ctx[6].bottom);
     			attr_dev(line0, "stroke", "black");
+    			attr_dev(line0, "stroke-opacity", "0.6");
     			attr_dev(line0, "stroke-width", "2");
     			add_location(line0, file$2, 135, 4, 3416);
     			attr_dev(line1, "x1", /*paddings*/ ctx[6].left);
@@ -3422,11 +3423,12 @@ var app = (function () {
     			attr_dev(line1, "y1", /*paddings*/ ctx[6].top);
     			attr_dev(line1, "y2", line1_y__value_1 = /*chartHeight*/ ctx[1] - /*paddings*/ ctx[6].bottom);
     			attr_dev(line1, "stroke", "black");
+    			attr_dev(line1, "stroke-opacity", "0.6");
     			attr_dev(line1, "stroke-width", "2");
-    			add_location(line1, file$2, 143, 4, 3631);
+    			add_location(line1, file$2, 144, 4, 3659);
     			add_location(g1, file$2, 134, 2, 3407);
-    			add_location(g2, file$2, 152, 2, 3821);
-    			add_location(g3, file$2, 162, 2, 4029);
+    			add_location(g2, file$2, 154, 2, 3877);
+    			add_location(g3, file$2, 164, 2, 4085);
     			attr_dev(svg, "width", /*chartWidth*/ ctx[0]);
     			attr_dev(svg, "height", /*chartHeight*/ ctx[1]);
     			attr_dev(svg, "id", /*idContainer*/ ctx[12]);
@@ -4624,13 +4626,16 @@ var app = (function () {
     	let em;
     	let t7;
     	let t8;
-    	let div;
+    	let div2;
+    	let div1;
     	let button0;
     	let t10;
     	let button1;
     	let t12;
     	let button2;
     	let t14;
+    	let div0;
+    	let t15;
     	let chartcontainer;
     	let current;
     	let mounted;
@@ -4642,7 +4647,7 @@ var app = (function () {
     				chartProps: {
     					data: energy_1,
     					xVar: "year",
-    					yVars: /*selectedYVars*/ ctx[0]
+    					yVars: /*selectedEnergy*/ ctx[0]
     				}
     			},
     			$$inline: true
@@ -4661,12 +4666,13 @@ var app = (function () {
     			br1 = element("br");
     			t4 = space();
     			br2 = element("br");
-    			t5 = text("\r\n    Each value represented the generated energy ");
+    			t5 = text("\r\n    Each value represents the generated energy from a particular source ");
     			em = element("em");
     			em.textContent = "per capita";
-    			t7 = text(", meaning the amount of energy generated from that source per person in the US.");
+    			t7 = text(", meaning the amount of energy generated from a source per person in the US.");
     			t8 = space();
-    			div = element("div");
+    			div2 = element("div");
+    			div1 = element("div");
     			button0 = element("button");
     			button0.textContent = "All";
     			t10 = space();
@@ -4676,24 +4682,31 @@ var app = (function () {
     			button2 = element("button");
     			button2.textContent = "Non-Renewables";
     			t14 = space();
+    			div0 = element("div");
+    			t15 = space();
     			create_component(chartcontainer.$$.fragment);
-    			attr_dev(h1, "class", "svelte-10oq979");
-    			add_location(h1, file, 20, 2, 690);
-    			add_location(br0, file, 24, 4, 781);
-    			add_location(br1, file, 26, 4, 875);
-    			add_location(br2, file, 27, 4, 885);
-    			add_location(em, file, 28, 48, 939);
-    			attr_dev(p, "class", "svelte-10oq979");
-    			add_location(p, file, 22, 2, 743);
-    			attr_dev(button0, "class", "svelte-10oq979");
-    			add_location(button0, file, 33, 4, 1156);
-    			attr_dev(button1, "class", "svelte-10oq979");
-    			add_location(button1, file, 34, 4, 1227);
-    			attr_dev(button2, "class", "svelte-10oq979");
-    			add_location(button2, file, 35, 4, 1311);
-    			attr_dev(div, "class", "energy-filter svelte-10oq979");
-    			add_location(div, file, 32, 2, 1123);
-    			add_location(main, file, 19, 0, 680);
+    			attr_dev(h1, "class", "svelte-186odfk");
+    			add_location(h1, file, 36, 2, 924);
+    			add_location(br0, file, 40, 4, 1015);
+    			add_location(br1, file, 42, 4, 1109);
+    			add_location(br2, file, 43, 4, 1119);
+    			add_location(em, file, 44, 72, 1197);
+    			attr_dev(p, "class", "svelte-186odfk");
+    			add_location(p, file, 38, 2, 977);
+    			attr_dev(button0, "class", "svelte-186odfk");
+    			add_location(button0, file, 49, 6, 1377);
+    			attr_dev(button1, "class", "svelte-186odfk");
+    			add_location(button1, file, 50, 6, 1483);
+    			attr_dev(button2, "class", "svelte-186odfk");
+    			add_location(button2, file, 51, 6, 1596);
+    			attr_dev(div0, "class", "highlight svelte-186odfk");
+    			attr_dev(div0, "style", /*highlightStyle*/ ctx[1]);
+    			add_location(div0, file, 52, 6, 1716);
+    			attr_dev(div1, "class", "button-container svelte-186odfk");
+    			add_location(div1, file, 48, 4, 1339);
+    			attr_dev(div2, "class", "energy-filter svelte-186odfk");
+    			add_location(div2, file, 47, 2, 1306);
+    			add_location(main, file, 35, 0, 914);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -4713,33 +4726,43 @@ var app = (function () {
     			append_dev(p, em);
     			append_dev(p, t7);
     			append_dev(main, t8);
-    			append_dev(main, div);
-    			append_dev(div, button0);
-    			append_dev(div, t10);
-    			append_dev(div, button1);
-    			append_dev(div, t12);
-    			append_dev(div, button2);
-    			append_dev(main, t14);
+    			append_dev(main, div2);
+    			append_dev(div2, div1);
+    			append_dev(div1, button0);
+    			append_dev(div1, t10);
+    			append_dev(div1, button1);
+    			append_dev(div1, t12);
+    			append_dev(div1, button2);
+    			append_dev(div1, t14);
+    			append_dev(div1, div0);
+    			append_dev(main, t15);
     			mount_component(chartcontainer, main, null);
     			current = true;
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(button0, "click", /*click_handler*/ ctx[5], false, false, false, false),
-    					listen_dev(button1, "click", /*click_handler_1*/ ctx[6], false, false, false, false),
-    					listen_dev(button2, "click", /*click_handler_2*/ ctx[7], false, false, false, false)
+    					listen_dev(button0, "click", /*click_handler*/ ctx[7], false, false, false, false),
+    					listen_dev(button0, "mouseenter", /*highlightButton*/ ctx[6], false, false, false, false),
+    					listen_dev(button1, "click", /*click_handler_1*/ ctx[8], false, false, false, false),
+    					listen_dev(button1, "mouseenter", /*highlightButton*/ ctx[6], false, false, false, false),
+    					listen_dev(button2, "click", /*click_handler_2*/ ctx[9], false, false, false, false),
+    					listen_dev(button2, "mouseenter", /*highlightButton*/ ctx[6], false, false, false, false)
     				];
 
     				mounted = true;
     			}
     		},
     		p: function update(ctx, [dirty]) {
+    			if (!current || dirty & /*highlightStyle*/ 2) {
+    				attr_dev(div0, "style", /*highlightStyle*/ ctx[1]);
+    			}
+
     			const chartcontainer_changes = {};
 
-    			if (dirty & /*selectedYVars*/ 1) chartcontainer_changes.chartProps = {
+    			if (dirty & /*selectedEnergy*/ 1) chartcontainer_changes.chartProps = {
     				data: energy_1,
     				xVar: "year",
-    				yVars: /*selectedYVars*/ ctx[0]
+    				yVars: /*selectedEnergy*/ ctx[0]
     			};
 
     			chartcontainer.$set(chartcontainer_changes);
@@ -4775,16 +4798,33 @@ var app = (function () {
     function instance($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('App', slots, []);
-    	const allYVars = ["biofuel", "coal", "fossil", "gas", "hydro", "nuclear", "oil", "solar"];
-    	const renewableYVars = ["biofuel", "hydro", "nuclear", "solar"];
-    	const nonRenewableYVars = ["coal", "fossil", "gas", "oil"];
+    	const allEnergy = ["biofuel", "coal", "fossil", "gas", "hydro", "nuclear", "oil", "solar"];
+    	const renewable = ["biofuel", "hydro", "nuclear", "solar"];
+    	const nonrenewable = ["coal", "fossil", "gas", "oil"];
+    	let selectedEnergy = allEnergy;
 
-    	// Define a variable to keep track of the currently selected y-axis variable set
-    	let selectedYVars = allYVars;
-
-    	// Function to handle button click events
     	function handleButtonClick(newYVars) {
-    		$$invalidate(0, selectedYVars = newYVars);
+    		$$invalidate(0, selectedEnergy = newYVars);
+    	}
+
+    	let highlightStyle = {
+    		top: "0px",
+    		left: "0px",
+    		width: "100px",
+    		height: "100%",
+    		opacity: 0
+    	};
+
+    	function highlightButton(event) {
+    		const rect = event.target.getBoundingClientRect();
+
+    		$$invalidate(1, highlightStyle = {
+    			top: `${rect.top}px`,
+    			left: `${rect.left}px`,
+    			width: `${rect.width}px`,
+    			height: `${rect.height}px`,
+    			opacity: 1
+    		});
     	}
 
     	const writable_props = [];
@@ -4793,23 +4833,26 @@ var app = (function () {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<App> was created with unknown prop '${key}'`);
     	});
 
-    	const click_handler = () => handleButtonClick(allYVars);
-    	const click_handler_1 = () => handleButtonClick(renewableYVars);
-    	const click_handler_2 = () => handleButtonClick(nonRenewableYVars);
+    	const click_handler = () => handleButtonClick(allEnergy);
+    	const click_handler_1 = () => handleButtonClick(renewable);
+    	const click_handler_2 = () => handleButtonClick(nonrenewable);
 
     	$$self.$capture_state = () => ({
     		ChartContainer,
     		energy: energy_1,
     		onMount,
-    		allYVars,
-    		renewableYVars,
-    		nonRenewableYVars,
-    		selectedYVars,
-    		handleButtonClick
+    		allEnergy,
+    		renewable,
+    		nonrenewable,
+    		selectedEnergy,
+    		handleButtonClick,
+    		highlightStyle,
+    		highlightButton
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ('selectedYVars' in $$props) $$invalidate(0, selectedYVars = $$props.selectedYVars);
+    		if ('selectedEnergy' in $$props) $$invalidate(0, selectedEnergy = $$props.selectedEnergy);
+    		if ('highlightStyle' in $$props) $$invalidate(1, highlightStyle = $$props.highlightStyle);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -4817,11 +4860,13 @@ var app = (function () {
     	}
 
     	return [
-    		selectedYVars,
-    		allYVars,
-    		renewableYVars,
-    		nonRenewableYVars,
+    		selectedEnergy,
+    		highlightStyle,
+    		allEnergy,
+    		renewable,
+    		nonrenewable,
     		handleButtonClick,
+    		highlightButton,
     		click_handler,
     		click_handler_1,
     		click_handler_2

@@ -139,6 +139,7 @@
       y1={chartHeight - paddings.bottom}
       y2={chartHeight - paddings.bottom}
       stroke="black"
+      stroke-opacity="0.6"
       stroke-width="2"
     />
     <line
@@ -147,6 +148,7 @@
       y1={paddings.top}
       y2={chartHeight - paddings.bottom}
       stroke="black"
+      stroke-opacity="0.6"
       stroke-width="2"
     />
   </g>
