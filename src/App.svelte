@@ -18,9 +18,16 @@
 </script>
 
 <main>
-  <h1>Energy Generation in the US</h1>
+  <h1>Energy Generation Per Capita in the US</h1>
 
-  <p>Descriptive text...</p>
+  <p>
+    Welcome to our project!
+    <br>
+    Hover over our graph to see the kilowatt-hours of energy generated per source.
+    <br>
+    <br>
+    Each value represented the generated energy <em>per capita</em>,<br>meaning the amount of energy generated from that source per person in the US.
+  </p>
 
   <!-- Buttons for toggling between different y-axis variable sets -->
   <div class="energy-filter">
