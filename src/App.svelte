@@ -45,7 +45,7 @@
     Hover over our graph to see the kilowatt-hours of energy generated per source!
     <br>
     Each value represents the generated energy from a particular source <em>per capita</em>,
-    meaning the amount of energy generated from a source averaged per person specificically in the US.
+    meaning the amount of energy generated from a source averaged per person specifically in the US.
   </p>
 
   <!-- <div class="energy-filter">
@@ -80,18 +80,29 @@
 
   <h2>Write-Up</h2>
   <div class="writeup">
-    <p>
-      [ERASE THIS LINE AFTER COMPLETION: A rationale for your design decisions. How did you choose your particular visual encodings and interaction techniques? What alternatives did you consider and how did you arrive at your ultimate choices?] <br>
+    <p style="text-align: justify; text-justify: inter-word;">
+      <!-- [ERASE THIS LINE AFTER COMPLETION: A rationale for your design decisions. How did you choose your particular visual encodings and interaction techniques? What alternatives did you consider and how did you arrive at your ultimate choices?] <br> -->
       For our graphic, we chose to answer our data science question with a visual displaying the change in the production of different energy sources over time.
-      We encoded this information using lines as our mark, indicating the continuous relation as these values change over time. Paired with the color-coding of our lines and position channels
-      indicated by our x and y-axis scales, our graphic clearly depicts the magnitude of energy production over the course of 18 years. Alternatives we considered were …, however we decided on
-      this line chart as our final product because …
+      We encoded this information using lines as our mark, indicating the continuous relation as these values change over time. Paired with the qualitative color-coding of our lines and position channels
+      indicated by our x and y-axis scales, our graphic clearly depicts the magnitude of energy production over the course of 18 years. 
+      Initially, we considered creating an interactive bar or pie chart that would shift between years. 
+      However, we settled on a line chart as our final product because line charts are great at depicting change over time. 
+      It also allowed for easy comparison between energy sources, as we were able to highlight each year based on where the mouse was hovered.
 
       <br>
       <br>
 
-      [ERASE THIS LINE AFTER COMPLETION: An overview of your development process. Describe how the work was split among the team members. Include a commentary on the development process, including answers to the following questions: Roughly how much time did you spend developing your application (in people-hours)? What aspects took the most time?] <br>
-      ...
+      <!-- [ERASE THIS LINE AFTER COMPLETION: An overview of your development process. Describe how the work was split among the team members. Include a commentary on the development process, including answers to the following questions: Roughly how much time did you spend developing your application (in people-hours)? What aspects took the most time?] <br> -->
+      The authors, <a href="https://github.com/katemae">Katelyn</a> and <a href="https://github.com/jman2-go">Jonathan</a>, both contributed to the idea development process and data gathering for this project, spending about an hour each.
+      Both authors then developed an initial draft for the project, taking about 3 hours. The draft was completely static at first, only plotting the lines without any interactivity.
+      To make it interactive, each author worked on a different aspect: Jonathan worked on making the graph hoverable with a tooltip, while Katelyn worked on making the buttons to swap between energy production types. Both aspects took around 4-6 hours, making interactivity the lengthiest portion of the project.
+      Finally, Katelyn built the styling for the website, and designed the final appearance of the plot using a template. She made the code compatible to be deployed through github, which overall took another 3 hours.
+
+      <br>
+      
+    </p>
+    <p style="text-align: center;">
+      Thanks for checking out our project!
     </p>
   </div>
   

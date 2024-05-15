@@ -48,7 +48,7 @@
             "#4daf4a",
             "#984ea3",
             "#ff7f00",
-            "#ffff33",
+            "#FFD700",
             "#a65628",
             "#f781bf",
             "#999999",
@@ -113,7 +113,7 @@
     text-anchor="middle"
     alignment-baseline="middle"
   >
-    Years
+    Year
   </text>
 
   <g>
