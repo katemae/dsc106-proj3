@@ -3,9 +3,9 @@
   import { energy } from "./data/energy";
   import { onMount } from 'svelte';
 
-  const allEnergy = ["biofuel", "coal", "fossil", "gas", "hydro", "nuclear", "oil", "solar"];
-  const renewable = ["biofuel", "hydro", "nuclear", "solar"];
-  const nonrenewable = ["coal", "fossil", "gas", "oil"];
+  const allEnergy = ["biofuel", "coal", "fossil", "gas", "hydro", "nuclear", "oil", "solar", "wind"];
+  const renewable = ["biofuel", "nuclear", "solar", "wind"];
+  const nonrenewable = ["coal", "fossil", "gas", "hydro", "oil"];
 
   let selectedEnergy = allEnergy;
 
